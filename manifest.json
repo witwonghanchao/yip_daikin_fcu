@@ -1,0 +1,14 @@
+{
+  "domain": "yip_daikin_fcu",
+  "name": "YIP Daikin FCU",
+  "version": "1.0.0",
+  "config_flow": true,
+  "documentation": "https://github.com/witwonghanchao/yip_daikin_fcu",
+  "issue_tracker": "https://github.com/witwonghanchao/yip_daikin_fcu/issues",
+  "requirements": [],
+  "dependencies": [],
+  "after_dependencies": ["mqtt"],
+  "codeowners": ["@witwonghanchao"],
+  "iot_class": "local_push",
+  "logo": "logo.png"
+}

@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Daikin FCU Device",
+        "description": "Enter the details to connect to your Daikin FCU device via MQTT.",
+        "data": {
+          "device_name": "Device Name",
+          "mac": "MAC Address",
+          "location": "Location Prefix",
+          "protocol_prefix": "Protocol Prefix (e.g., daikiniot)",
+          "app_name": "App Name (Your MQTT App Identifier)"
+        }
+      }
+    },
+    "error": {
+      "already_configured": "This device is already configured"
+    }
+  }
+}

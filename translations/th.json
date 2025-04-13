@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "เชื่อมต่ออุปกรณ์ Daikin FCU",
+        "description": "กรอกรายละเอียดเพื่อตั้งค่าอุปกรณ์ Daikin FCU ผ่าน MQTT",
+        "data": {
+          "device_name": "ชื่ออุปกรณ์",
+          "mac": "MAC Address",
+          "location": "ตำแหน่ง (Location Prefix)",
+          "protocol_prefix": "Protocol Prefix (เช่น daikiniot)",
+          "app_name": "ชื่อแอป (App Name)"
+        }
+      }
+    },
+    "error": {
+      "already_configured": "อุปกรณ์นี้ถูกเพิ่มไว้แล้ว"
+    }
+  }
+}
