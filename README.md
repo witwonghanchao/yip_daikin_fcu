@@ -33,7 +33,25 @@ This integration is developed and maintained by [Wit Wonghanchao](https://github
 
 ---
 
-## 🥉 Configuration (YAML Example)
+## 🧾 File Structure
+
+```
+.
+├── README.md
+├── __init__.py
+├── climate.py
+├── config_flow.py
+├── const.py
+├── logo.png
+├── manifest.json
+└── translations
+    ├── en.json
+    └── th.json
+```
+
+---
+
+## 🧩 Configuration (YAML Example)
 
 ```yaml
 climate:
@@ -54,17 +72,17 @@ Each FCU must be defined with its:
 
 ## 📡 MQTT Topics Used
 
-### ➔ Broadcast (status push from FCU)
+### ➤ Broadcast (status push from FCU)
 ```
 <location>/<protocol>/broadcast/device/<mac>
 ```
 
-### ➔ Response (reply to a request)
+### ➤ Response (reply to a request)
 ```
 <location>/<protocol>/response/app/<app>/device/<mac>
 ```
 
-### ➔ Command (send write/read request)
+### ➤ Command (send write/read request)
 ```
 <location>/<protocol>/query/device/<mac>/app/<app>
 ```
@@ -108,7 +126,7 @@ Each FCU must be defined with its:
 
 ---
 
-## 🛠️ Development
+## 🛠 Development
 
 This project is developed under:
 
@@ -119,7 +137,7 @@ This project is developed under:
 
 ---
 
-## 🔪 Testing & Validation
+## 🔬 Testing & Validation
 
 A `hassfest` GitHub workflow is provided in `.github/workflows/hassfest.yml` to validate integration structure.
 
