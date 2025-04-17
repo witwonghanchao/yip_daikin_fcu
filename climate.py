@@ -134,7 +134,7 @@ class YipDaikinFCUClimate(ClimateEntity):
         | ClimateEntityFeature.TURN_OFF
     )
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
-    _attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.FAN_ONLY]
+    _attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.FAN_ONLY, HVACMode.DRY]
     _attr_min_temp = DEFAULT_MIN_TEMP
     _attr_max_temp = DEFAULT_MAX_TEMP
     _attr_target_temperature_step = 1.0
