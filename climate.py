@@ -62,7 +62,7 @@ from homeassistant.components.climate.const import (
     ClimateEntityFeature,
     HVACMode,
 )
-from homeassistant.const import UnitOfTemperature
+from homeassistant.const import MAJOR_VERSION, MINOR_VERSION, UnitOfTemperature
 from homeassistant.core import callback
 from homeassistant.components import mqtt
 
@@ -124,6 +124,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
     _LOGGER.debug("[SETUP] Climate entity added: %s", data.get("device_name", "unknown"))
 
 
+# HA 2026.11 renamed the climate temperature attributes to _attr_native_*
+# (the old names log a deprecation warning and stop working in 2027.11).
+# Pick the names this HA version has, so one file runs on old and new HA.
+_NATIVE_TEMPS = (MAJOR_VERSION, MINOR_VERSION) >= (2026, 11)
+
+
 # --- Main Climate Entity Class ---
 class YipDaikinFCUClimate(ClimateEntity):
     _attr_supported_features = (
@@ -133,7 +139,10 @@ class YipDaikinFCUClimate(ClimateEntity):
         | ClimateEntityFeature.TURN_ON
         | ClimateEntityFeature.TURN_OFF
     )
-    _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
+    if _NATIVE_TEMPS:
+        _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
+    else:
+        _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.FAN_ONLY, HVACMode.DRY]
     _attr_min_temp = DEFAULT_MIN_TEMP
     _attr_max_temp = DEFAULT_MAX_TEMP
@@ -153,13 +162,25 @@ class YipDaikinFCUClimate(ClimateEntity):
             "app_name": config.get("app_name"),
         }
         self._attr_hvac_mode = HVACMode.OFF
-        self._attr_native_target_temperature = 25.0
-        self._attr_native_current_temperature = 27.0
+        self._set_temperatures(target=25.0, current=27.0)
         self._attr_fan_mode = "AUTO"
         self._attr_swing_mode = "SWEEP ON"
         self._unsub_listeners = []
 
     # --- Lifecycle ---
+    def _set_temperatures(self, target=None, current=None):
+        """Store target/current temperature under the attribute names this HA uses."""
+        if target is not None:
+            if _NATIVE_TEMPS:
+                self._attr_native_target_temperature = target
+            else:
+                self._attr_target_temperature = target
+        if current is not None:
+            if _NATIVE_TEMPS:
+                self._attr_native_current_temperature = current
+            else:
+                self._attr_current_temperature = current
+
     async def async_added_to_hass(self):
         await super().async_added_to_hass()
         mac = self._config.get("mac")
@@ -245,10 +266,7 @@ class YipDaikinFCUClimate(ClimateEntity):
         else:
             self._attr_hvac_mode = HVACMode.OFF
 
-        if set_temp is not None:
-            self._attr_native_target_temperature = set_temp
-        if room_temp is not None:
-            self._attr_native_current_temperature = room_temp
+        self._set_temperatures(target=set_temp, current=room_temp)
 
         self._attr_fan_mode = FAN_SPEED_MAP.get(fan_speed, str(fan_speed))
         self._attr_swing_mode = SWING_MAP.get(sweep_status, str(sweep_status))
