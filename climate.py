@@ -133,7 +133,7 @@ class YipDaikinFCUClimate(ClimateEntity):
         | ClimateEntityFeature.TURN_ON
         | ClimateEntityFeature.TURN_OFF
     )
-    _attr_temperature_unit = UnitOfTemperature.CELSIUS
+    _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.FAN_ONLY, HVACMode.DRY]
     _attr_min_temp = DEFAULT_MIN_TEMP
     _attr_max_temp = DEFAULT_MAX_TEMP
@@ -153,8 +153,8 @@ class YipDaikinFCUClimate(ClimateEntity):
             "app_name": config.get("app_name"),
         }
         self._attr_hvac_mode = HVACMode.OFF
-        self._attr_target_temperature = 25.0
-        self._attr_current_temperature = 27.0
+        self._attr_native_target_temperature = 25.0
+        self._attr_native_current_temperature = 27.0
         self._attr_fan_mode = "AUTO"
         self._attr_swing_mode = "SWEEP ON"
         self._unsub_listeners = []
@@ -246,9 +246,9 @@ class YipDaikinFCUClimate(ClimateEntity):
             self._attr_hvac_mode = HVACMode.OFF
 
         if set_temp is not None:
-            self._attr_target_temperature = set_temp
+            self._attr_native_target_temperature = set_temp
         if room_temp is not None:
-            self._attr_current_temperature = room_temp
+            self._attr_native_current_temperature = room_temp
 
         self._attr_fan_mode = FAN_SPEED_MAP.get(fan_speed, str(fan_speed))
         self._attr_swing_mode = SWING_MAP.get(sweep_status, str(sweep_status))
